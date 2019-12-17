@@ -69,7 +69,15 @@ class Video(models.Model):
     @property
     def image_list(self):
         files = self.uploadfile_set.filter(file_type=UploadFile.IMAGE)
-        images_info = sorted([(x.file.url, x.width, x.height) for x in files])
+        images_info = [(x.file.url, x.width, x.height) for x in files]
+
+        def get_num(im_info):
+            url = im_info[0]
+            name = os.path.split(url)[-1]
+            num = os.path.splitext(name)[0]
+            return int(num)
+
+        images_info = sorted(images_info, key=get_num)
         return images_info
 
     def __str__(self):
