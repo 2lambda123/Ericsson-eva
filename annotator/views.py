@@ -3,6 +3,8 @@ import zipfile
 import logging
 import subprocess
 import re
+import os
+import mimetypes
 #import cv2
 #import numpy as np
 from django.shortcuts import render
@@ -12,7 +14,8 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from django.views.decorators.cache import never_cache
 from django.db import IntegrityError
 from django.db.models import Max
-from django.http import JsonResponse
+from django.http import JsonResponse, StreamingHttpResponse
+from wsgiref.util import FileWrapper
 from celery.result import AsyncResult
 from celery import chain
 from celery import states as task_states
@@ -709,13 +712,12 @@ class ExportVideo(View):
     def get(self, request, vid):
         video = Video.objects.get(id=vid)
         if video.zipfile and os.path.exists(video.zipfile.path):
-            with open(video.zipfile.path, 'rb') as f:
-                response = HttpResponse(
-                    f, content_type='application/x-zip-compressed')
-                response['Content-Disposition'] = (
-                    'attachment; '
-                    'filename={}.zip'
-                ).format(video.name)
+            chunk_size = 8192
+            filename = os.path.basename(video.zipfile.path)
+            response = StreamingHttpResponse(FileWrapper(open(video.zipfile.path, 'rb'), chunk_size),
+                                    content_type=mimetypes.guess_type(video.zipfile.path)[0])
+            response['Content-Length'] = os.path.getsize(video.zipfile.path)
+            response['Content-Disposition'] = "attachment; filename=%s" % filename
         else:
             response = HttpResponseNotFound('File does not exist')
         return response
