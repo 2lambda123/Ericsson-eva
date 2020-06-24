@@ -5,7 +5,7 @@ WORKDIR /app
 
 #apt-get install libglib2.0-dev
 RUN apt-get update && apt-get install -y \
-    libglib2.0-dev \
+    libglib2.0-dev llvm build-essential \
     libsm6 libxext6 libxrender-dev \
     ffmpeg \
     g++ \
