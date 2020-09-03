@@ -390,11 +390,16 @@ class Player {
          we want to hide if:
             - the very first frame object is in the future (nextIndex == 0 && closestIndex is null)
             - we're after the last frame and that last frame was marked as continueInterpolation false */
-        rect.appear({
+        var appear_params = {
             real: closestIndex != null,
             selected: this.selectedAnnotation === annotation && !rect.locked,
             singlekeyframe: continueInterpolation && !(nextIndex == 0 && closestIndex === null)
-        });
+        }
+
+        rect.appear(appear_params);
+
+        //only set bounds when annotation is visible.
+        if (!appear_params.real) return;
 
         // Don't mess up our drag
         if (rect.isBeingDragged()) return;
