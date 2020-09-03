@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY requirements.txt /app/
 RUN pip install --upgrade pip \
+  && pip install --no-cache-dir llvmlite==0.31.0 \
   && pip install --no-cache-dir -r requirements.txt \
   && pip install --no-cache-dir gunicorn psycopg2-binary
 
