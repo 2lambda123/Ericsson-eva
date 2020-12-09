@@ -21,6 +21,7 @@ VIDEO_CHUNK_SIZE = 100
 # This setting controls how small the last chunk can be. If it is smaller,
 # the frames are added to the previous chunk instead.
 MIN_FINAL_CHUNK_SIZE = VIDEO_CHUNK_SIZE // 2
+DATA_UPLOAD_MAX_MEMORY_SIZE = None
 
 # Defines extra bounding box scaling before tracking
 TRACKER_SCALING = 2
