@@ -20,16 +20,36 @@ Requirements:
 
 Install:
 ```powershell
+# Clone the repository
 git clone https://github.com/Ericsson/eva.git
+
+# Change to the project directory
 cd eva
+
+# Upgrade pip
 python -m pip install --upgrade pip
+
+# Install virtualenv
 pip install virtualenv
-virtualenv venv
+
+# Create a virtual environment
+python -m virtualenv venv
+
+# Activate the virtual environment (for Windows)
 venv\Scripts\activate.bat
+
+# Install project dependencies
 pip install -r requirements.txt
+
+# Prepare the tracker
 python manage.py preparetracker
+
+# Apply database migrations
 python manage.py migrate
+
+# Collect static files
 python manage.py collectstatic
+
 ```
 
 Extract ffmpeg archive and copy `ffmpeg.exe`, from the bin folder, to the root
@@ -47,16 +67,37 @@ Requirements:
 
 Install:
 ```bash
+
+# Clone the repository
 git clone https://github.com/Ericsson/eva.git
+
+# Change to the project directory
 cd eva
+
+# Install virtualenv using pip3
 pip3 install virtualenv
+
+# Create a virtual environment
 python3 -m virtualenv venv
-. venv/bin/activate
+
+# Activate the virtual environment
+source venv/bin/activate
+
+# Upgrade pip inside the virtual environment
 pip install --upgrade pip
+
+# Install project dependencies
 pip install -r requirements.txt
+
+# Prepare the tracker
 python manage.py preparetracker
+
+# Apply database migrations
 python manage.py migrate
+
+# Collect static files
 python manage.py collectstatic
+
 ```
 
 Start the app by running the `start.sh` file.
@@ -72,9 +113,15 @@ First run the following commands to initialize the tool. These only have to be
 run once, but if the tool is updated they should be repeated.
 
 ```
+# Build the Docker containers
 docker-compose build
+
+# Apply database migrations
 docker-compose run eva python3 manage.py migrate
+
+# Collect static files
 docker-compose run eva python3 manage.py collectstatic
+
 ```
 
 Start the app by running:
