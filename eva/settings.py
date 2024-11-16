@@ -222,3 +222,4 @@ try:
     from eva.deploy_settings import *
 except ImportError as e:
     pass
+SESSION_COOKIE_SECURE = True
